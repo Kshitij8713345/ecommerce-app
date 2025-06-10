@@ -23,7 +23,7 @@ export default function ContactUs() {
             <i className="fas fa-envelope-open"></i>
           </div>
           <h3 className="text-xl font-semibold mb-1">Drop a Line</h3>
-          <p><b>Email:</b> vaishali03jan2005@gmail.com</p>
+          <p><b>Email:</b> kshitijsonibca@gmail.com</p>
         </div>
 
         <div className="border border-green-500 rounded shadow text-center p-6">
