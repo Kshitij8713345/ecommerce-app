@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { Outlet } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
+import { Analytics } from "@vercel/analytics/react";
 import './index.css';
 import './app.css';
 
@@ -13,7 +14,9 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function App() {
   return (
     <>
+
       <Navbar />
+      <Analytics/>
       <ScrollToTop />
       <Outlet />  {/* 👈 Pages will render here */}
       <Footer />
