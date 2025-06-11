@@ -1,5 +1,5 @@
 // pages/api/submitOrder.js
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase } from "@/lib/mongodb"; // Make sure this path is correct
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
