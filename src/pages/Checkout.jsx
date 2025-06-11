@@ -19,10 +19,34 @@ export default function Checkout() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // You can store this data or send to backend here
-    navigate("/order-confirmation");
+
+    const orderData = {
+      customer: form,
+      items: cart,
+      total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+      date: new Date().toISOString(),
+    };
+
+    try {
+      const res = await fetch("/api/submitOrder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (res.ok) {
+        console.log("✅ Order sent!");
+        navigate("/order-confirmation");
+      } else {
+        console.error("❌ Failed to submit order:", await res.text());
+      }
+    } catch (error) {
+      console.error("❌ Error sending order:", error);
+    }
   };
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
