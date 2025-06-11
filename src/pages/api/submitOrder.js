@@ -1,11 +1,27 @@
-// export default function handler(req, res) {
-//   if (req.method === 'POST') {
-//     const orderData = req.body;
+import { MongoClient } from 'mongodb';
 
-//     console.log('Received order:', orderData); // You’ll see this in Vercel logs
+const uri = process.env.MONGODB_URI; // MONGODB_URI ko .env file me daalo
 
-//     res.status(200).json({ message: 'Order received successfully' });
-//   } else {
-//     res.status(405).json({ message: `Method ${req.method} Not Allowed` });
-//   }
-// }
+export default async function handler(req, res) {
+  if (req.method === 'POST') {
+    const orderData = req.body;
+
+    try {
+      const client = new MongoClient(uri);
+      await client.connect();
+      const db = client.db('apniidukan'); // Tumhara DB naam
+      const orders = db.collection('orders'); // Collection jaha store hoga
+
+      await orders.insertOne(orderData);
+
+      await client.close();
+
+      res.status(200).json({ message: 'Order stored successfully!' });
+    } catch (error) {
+      console.error('MongoDB Error:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  } else {
+    res.status(405).json({ message: `Method ${req.method} Not Allowed` });
+  }
+}
