@@ -1,27 +1,28 @@
-import { MongoClient } from "mongodb";
+// /api/submitOrder.js
+import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Only POST requests allowed' });
   }
 
-  const client = new MongoClient(uri);
+  if (!uri) {
+    return res.status(500).json({ message: 'MongoDB URI not set in environment variables' });
+  }
 
   try {
-    await client.connect();
-    const db = client.db("apniidukan");
-    const orders = db.collection("orders");
+    const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    const db = client.db('apnidukan'); // You can name it what you want
+    const collection = db.collection('orders');
 
-    const order = req.body;
-    await orders.insertOne(order);
+    await collection.insertOne(req.body);
 
-    res.status(200).json({ message: "Order saved successfully" });
+    client.close();
+    res.status(200).json({ message: '✅ Order stored successfully!' });
   } catch (error) {
-    console.error("Error saving order:", error);
-    res.status(500).json({ message: "Failed to save order" });
-  } finally {
-    await client.close();
+    console.error("MongoDB Insert Error:", error);
+    res.status(500).json({ message: 'MongoDB insert failed ❌', error });
   }
 }
