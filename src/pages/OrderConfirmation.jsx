@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 export default function OrderConfirmation() {
   const { clearCart } = useCart();
 
   // Order number generate sirf ek baar on mount
-  const [orderNo] = useState(() =>
-    Math.floor(Math.random() * 900000000000) + 100000000000
+  const [orderNo] = useState(
+    () => Math.floor(Math.random() * 900000000000) + 100000000000
   );
 
   useEffect(() => {
     clearCart();
-  }, [clearCart]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="p-6 max-w-xl mx-auto text-center bg-white rounded shadow-md slide-up-animation">
@@ -23,7 +24,9 @@ export default function OrderConfirmation() {
       <p className="text-md text-gray-700 mb-4">
         <strong>Order No:</strong> #{orderNo}
       </p>
-      <p className="text-md text-blue-600 mb-8 font-semibold">Status: Confirmed 🚚</p>
+      <p className="text-md text-blue-600 mb-8 font-semibold">
+        Status: Confirmed 🚚
+      </p>
 
       <Link
         to="/"
