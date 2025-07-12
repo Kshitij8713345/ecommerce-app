@@ -43,7 +43,7 @@ export default function Checkout() {
         navigate("/order-confirmation");
       } else {
         const errorText = await res.text();
-        alert("❌ Error: " + errorText);
+        alert("❌ Server error: " + errorText);
       }
     } catch (error) {
       alert("❌ Network error: " + error.message);
