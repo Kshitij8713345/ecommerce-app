@@ -30,7 +30,8 @@ export default function Checkout() {
     };
 
     try {
-      const res = await fetch("http://172.20.10.8:5000/api/submitOrder", {
+      const res = await fetch("/api/submitOrder", {
+        // ✅ RELATIVE path - works from Vercel-hosted frontend to Vercel backend
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +43,8 @@ export default function Checkout() {
         console.log("✅ Order sent!");
         navigate("/order-confirmation");
       } else {
-        console.error("❌ Failed to submit order:", await res.text());
+        const errorText = await res.text();
+        console.error("❌ Failed to submit order:", errorText);
       }
     } catch (error) {
       console.error("❌ Error sending order:", error);
