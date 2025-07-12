@@ -40,11 +40,15 @@ export default function Checkout() {
       });
 
       if (res.ok) {
-        console.log("✅ Order sent!");
+        // console.log("✅ Order sent!");
+        alert("✅ Order placed successfully!");
+
         navigate("/order-confirmation");
       } else {
         const errorText = await res.text();
-        console.error("❌ Failed to submit order:", errorText);
+        // console.error("❌ Failed to submit order:", errorText);
+        alert("❌ Error: " + error.message);
+
       }
     } catch (error) {
       console.error("❌ Error sending order:", error);
